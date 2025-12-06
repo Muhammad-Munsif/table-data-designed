@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive Data Table</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary-color: #0d6efd;
+      --secondary-color: #6c757d;
+      --success-color: #198754;
+      --danger-color: #dc3545;
+      --warning-color: #ffc107;
+      --light-color: #f8f9fa;
+      --dark-color: #212529;
+    }
+
+    body {
+      background-color: #f5f7fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+      padding-top: 20px;
+      padding-bottom: 40px;
+    }
+
+    h2 {
+      color: var(--dark-color);
+      font-weight: 600;
+      margin-bottom: 30px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary-color);
+    }
+
+    /* Table styling */
+    .table-responsive {
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      background-color: white;
+      overflow: hidden;
+    }
+
+    .table thead th {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+      border: none;
+      padding: 16px 12px;
+      vertical-align: middle;
+    }
+
+    .table tbody td {
+      padding: 14px 12px;
+      vertical-align: middle;
+      border-color: #f0f0f0;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: rgba(13, 110, 253, 0.03);
+    }
+
+    .table-hover tbody tr:hover {
+      background-color: rgba(13, 110, 253, 0.08);
+      transform: translateY(-1px);
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Button styling */
+    .btn {
+      font-weight: 500;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    .btn-primary:hover {
+      background-color: #0b5ed7;
+      border-color: #0b5ed7;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+    }
+
+    .btn-sm {
+      padding: 5px 12px;
+      font-size: 0.85rem;
+    }
+
+    /* Card-like table rows for mobile */
+    @media (max-width: 768px) {
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      .table-responsive {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+      }
+      
+      .table thead {
+        display: none;
+      }
+      
+      .table, 
+      .table tbody, 
+      .table tr, 
+      .table td {
+        display: block;
+        width: 100%;
+        border: none;
+      }
+      
+      .table tr {
+        margin-bottom: 16px;
+        border: 1px solid #dee2e6 !important;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        padding: 0;
+        background-color: white;
+      }
+      
+      .table td {
+        text-align: right;
+        padding: 12px 15px 12px 50%;
+        position: relative;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      
+      .table td:last-child {
+        border-bottom: none;
+      }
+      
+      .table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        width: calc(50% - 20px);
+        padding-right: 10px;
+        font-weight: 600;
+        text-align: left;
+        color: var(--primary-color);
+      }
+      
+      .table td .btn-group {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 5px;
+      }
+      
+      .table td .btn {
+        flex: 1;
+        max-width: 80px;
+      }
+      
+      /* Adjust search and button layout */
+      .row.mb-3 {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .col-md-6.text-md-end {
+        text-align: left !important;
+      }
+      
+      /* Pagination adjustments */
+      .pagination {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+    }
+
+    /* Extra small devices */
+    @media (max-width: 576px) {
+      .table td {
+        padding-left: 45%;
+      }
+      
+      .table td::before {
+        width: calc(55% - 20px);
+      }
+      
+      .btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
+      
+      .input-group {
+        flex-direction: column;
+      }
+      
+      .input-group input {
+        border-radius: 6px !important;
+        margin-bottom: 10px;
+      }
+      
+      .input-group button {
+        border-radius: 6px !important;
+        width: 100%;
+      }
+    }
+
+    /* Pagination styling */
+    .pagination {
+      margin-bottom: 0;
+    }
+    
+    .page-link {
+      color: var(--primary-color);
+      border: 1px solid #dee2e6;
+      margin: 0 3px;
+      border-radius: 6px !important;
+      font-weight: 500;
+    }
+    
+    .page-item.active .page-link {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+      color: white;
+    }
+    
+    .page-link:hover {
+      background-color: #e9ecef;
+      border-color: #dee2e6;
+      color: var(--primary-color);
+    }
+    
+    .page-item.disabled .page-link {
+      color: #6c757d;
+      background-color: #f8f9fa;
+    }
+
+    /* Modal styling */
+    .modal-header {
+      background-color: var(--primary-color);
+      color: white;
+      border-bottom: none;
+      border-radius: 0;
+    }
+    
+    .modal-header .btn-close {
+      filter: invert(1);
+      opacity: 0.8;
+    }
+    
+    .modal-header .btn-close:hover {
+      opacity: 1;
+    }
+    
+    .modal-content {
+      border-radius: 10px;
+      border: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .modal-footer {
+      border-top: 1px solid #eee;
+      padding: 15px 20px;
+    }
+
+    /* Form styling */
+    .form-label {
+      font-weight: 500;
+      color: #495057;
+      margin-bottom: 6px;
+    }
+    
+    .form-control, .form-select {
+      border-radius: 6px;
+      border: 1px solid #ced4da;
+      padding: 10px 12px;
+      transition: all 0.2s;
+    }
+    
+    .form-control:focus, .form-select:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    /* Status badges for department */
+    .department-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    
+    .IT {
+      background-color: rgba(13, 110, 253, 0.15);
+      color: #0d6efd;
+    }
+    
+    .HR {
+      background-color: rgba(25, 135, 84, 0.15);
+      color: #198754;
+    }
+    
+    .Finance {
+      background-color: rgba(255, 193, 7, 0.15);
+      color: #ffc107;
+    }
+    
+    .Marketing {
+      background-color: rgba(220, 53, 69, 0.15);
+      color: #dc3545;
+    }
+    
+    .Operations {
+      background-color: rgba(108, 117, 125, 0.15);
+      color: #6c757d;
+    }
+    
+    .Frontend-Developer, .Backend-Developer, .MERN-Stack, .MEAN-Stack {
+      background-color: rgba(111, 66, 193, 0.15);
+      color: #6f42c1;
+    }
+
+    /* Action buttons */
+    .btn-group-actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .btn-edit {
+      background-color: rgba(255, 193, 7, 0.1);
+      border-color: #ffc107;
+      color: #ffc107;
+    }
+    
+    .btn-edit:hover {
+      background-color: #ffc107;
+      border-color: #ffc107;
+      color: #000;
+    }
+    
+    .btn-delete {
+      background-color: rgba(220, 53, 69, 0.1);
+      border-color: #dc3545;
+      color: #dc3545;
+    }
+    
+    .btn-delete:hover {
+      background-color: #dc3545;
+      border-color: #dc3545;
+      color: white;
+    }
+
+    /* Search box */
+    #searchInput {
+      border-radius: 6px 0 0 6px;
+    }
+    
+    #searchButton {
+      border-radius: 0 6px 6px 0;
+    }
+    
+    /* Info text */
+    .dataTables_info {
+      color: #6c757d;
+      font-weight: 500;
+      padding-top: 8px;
+    }
+
+    /* Loader animation */
+    .loader {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Toast notification */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1055;
+    }
+    
+    .toast {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .toast-success {
+      border-left-color: var(--success-color);
+    }
+    
+    .toast-error {
+      border-left-color: var(--danger-color);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">
+      <i class="fas fa-table me-2"></i>Employee Directory
+    </h2>
+
+    <div class="row mb-4">
+      <div class="col-md-8 col-lg-9">
+        <div class="input-group">
+          <input type="text" id="searchInput" class="form-control" placeholder="Search by name, email, department..." />
+          <button class="btn btn-primary" type="button" id="searchButton">
+            <i class="fas fa-search me-1"></i> Search
+          </button>
+          <button class="btn btn-outline-secondary" type="button" id="clearSearch">
+            <i class="fas fa-times me-1"></i> Clear
+          </button>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-3 text-md-end mt-3 mt-md-0">
+        <button class="btn btn-success" id="addRowBtn">
+          <i class="fas fa-plus-circle me-1"></i> Add Employee
+        </button>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th width="5%">ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Department</th>
+            <th>Join Date</th>
+            <th width="15%">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- Data will be loaded here -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <div class="dataTables_info" id="dataTableInfo">
+          Showing 0 to 0 of 0 entries
+        </div>
+      </div>
+      <div class="col-md-6">
+        <nav aria-label="Page navigation" class="float-md-end">
+          <ul class="pagination justify-content-center justify-content-md-end" id="pagination">
+            <!-- Pagination will be added here -->
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Add/Edit -->
+  <div class="modal fade" id="dataModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle">
+            <i class="fas fa-user-edit me-2"></i>Add New Employee
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="dataForm">
+            <input type="hidden" id="recordId" />
+            <div class="mb-3">
+              <label for="name" class="form-label">Full Name *</label>
+              <input type="text" class="form-control" id="name" required placeholder="Enter full name" />
+              <div class="invalid-feedback">Please enter a valid name.</div>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address *</label>
+              <input type="email" class="form-control" id="email" required placeholder="Enter email address" />
+              <div class="invalid-feedback">Please enter a valid email.</div>
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" id="phone" placeholder="Enter phone number" />
+            </div>
+            <div class="mb-3">
+              <label for="department" class="form-label">Department *</label>
+              <select class="form-select" id="department" required>
+                <option value="" disabled selected>Select department</option>
+                <option value="IT">IT</option>
+                <option value="HR">HR</option>
+                <option value="Frontend Developer">Frontend Developer</option>
+                <option value="Backend Developer">Backend Developer</option>
+                <option value="MERN Stack">MERN Stack</option>
+                <option value="MEAN Stack">MEAN Stack</option>
+                <option value="Finance">Finance</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Operations">Operations</option>
+              </select>
+              <div class="invalid-feedback">Please select a department.</div>
+            </div>
+            <div class="mb-3">
+              <label for="joinDate" class="form-label">Join Date *</label>
+              <input type="date" class="form-control" id="joinDate" required />
+              <div class="invalid-feedback">Please select a join date.</div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            <i class="fas fa-times me-1"></i> Cancel
+          </button>
+          <button type="button" class="btn btn-primary" id="saveData">
+            <i class="fas fa-save me-1"></i> Save Employee
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-container"></div>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Enhanced sample data
+      let tableData = [
+        { id: 1, name: "John Doe", email: "john@example.com", phone: "123-456-7890", department: "IT", joinDate: "2020-01-15" },
+        { id: 2, name: "Jane Smith", email: "jane@example.com", phone: "234-567-8901", department: "HR", joinDate: "2019-05-22" },
+        { id: 3, name: "Robert Johnson", email: "robert@example.com", phone: "345-678-9012", department: "Finance", joinDate: "2021-03-10" },
+        { id: 4, name: "Emily Davis", email: "emily@example.com", phone: "456-789-0123", department: "Marketing", joinDate: "2018-11-05" },
+        { id: 5, name: "Michael Wilson", email: "michael@example.com", phone: "567-890-1234", department: "Operations", joinDate: "2022-02-18" },
+        { id: 6, name: "Sarah Brown", email: "sarah@example.com", phone: "678-901-2345", department: "IT", joinDate: "2020-07-30" },
+        { id: 7, name: "David Taylor", email: "david@example.com", phone: "789-012-3456", department: "HR", joinDate: "2019-09-12" },
+        { id: 8, name: "Jessica Anderson", email: "jessica@example.com", phone: "890-123-4567", department: "Finance", joinDate: "2021-01-25" },
+        { id: 9, name: "Thomas Martinez", email: "thomas@example.com", phone: "901-234-5678", department: "Marketing", joinDate: "2018-04-17" },
+        { id: 10, name: "Lisa Robinson", email: "lisa@example.com", phone: "012-345-6789", department: "Operations", joinDate: "2022-06-08" },
+        { id: 11, name: "James Wilson", email: "james@example.com", phone: "123-456-7891", department: "Frontend Developer", joinDate: "2021-08-14" },
+        { id: 12, name: "Maria Garcia", email: "maria@example.com", phone: "234-567-8902", department: "Backend Developer", joinDate: "2020-03-22" },
+        { id: 13, name: "William Lee", email: "william@example.com", phone: "345-678-9013", department: "MERN Stack", joinDate: "2023-01-10" },
+        { id: 14, name: "Sophia Clark", email: "sophia@example.com", phone: "456-789-0124", department: "MEAN Stack", joinDate: "2022-09-05" }
+      ];
+
+      // DOM elements
+      const tableBody = document.getElementById("tableBody");
+      const searchInput = document.getElementById("searchInput");
+      const searchButton = document.getElementById("searchButton");
+      const clearSearch = document.getElementById("clearSearch");
+      const addRowBtn = document.getElementById("addRowBtn");
+      const dataModal = new bootstrap.Modal(document.getElementById("dataModal"));
+      const saveDataBtn = document.getElementById("saveData");
+      const dataForm = document.getElementById("dataForm");
+      const pagination = document.getElementById("pagination");
+      const dataTableInfo = document.getElementById("dataTableInfo");
+      const toastContainer = document.querySelector('.toast-container');
+
+      // Pagination variables
+      let currentPage = 1;
+      let rowsPerPage = window.innerWidth < 768 ? 3 : 5;
+      let filteredData = [...tableData];
+
+      // Initialize the table
+      function initTable() {
+        updateRowsPerPage();
+        renderTable();
+        renderPagination();
+        updateTableInfo();
+      }
+
+      // Update rows per page based on screen size
+      function updateRowsPerPage() {
+        if (window.innerWidth < 576) {
+          rowsPerPage = 3;
+        } else if (window.innerWidth < 768) {
+          rowsPerPage = 4;
+        } else {
+          rowsPerPage = 5;
+        }
+      }
+
+      // Render table rows
+      function renderTable(data = filteredData) {
+        tableBody.innerHTML = '';
+
+        // Calculate paginated data
+        const startIndex = (currentPage - 1) * rowsPerPage;
+        const paginatedData = data.slice(startIndex, startIndex + rowsPerPage);
+
+        if (paginatedData.length === 0) {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td colspan="7" class="text-center py-5">
+              <i class="fas fa-database fa-2x mb-3" style="color: #6c757d;"></i>
+              <p class="text-muted">No employees found</p>
+            </td>
+          `;
+          tableBody.appendChild(tr);
+          return;
+        }
+
+        paginatedData.forEach((item) => {
+          const tr = document.createElement("tr");
+          
+          // Create department badge
+          const deptClass = item.department.replace(/\s+/g, '-');
+          
+          tr.innerHTML = `
+            <td data-label="ID"><span class="badge bg-light text-dark">${item.id}</span></td>
+            <td data-label="Name">
+              <div class="d-flex align-items-center">
+                <div class="avatar-placeholder me-2 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                  ${item.name.charAt(0)}
+                </div>
+                <div>${item.name}</div>
+              </div>
+            </td>
+            <td data-label="Email">
+              <a href="mailto:${item.email}" class="text-decoration-none">${item.email}</a>
+            </td>
+            <td data-label="Phone">${item.phone || 'N/A'}</td>
+            <td data-label="Department">
+              <span class="department-badge ${deptClass}">${item.department}</span>
+            </td>
+            <td data-label="Join Date">
+              <div class="d-flex flex-column">
+                <span>${formatDate(item.joinDate)}</span>
+                <small class="text-muted">${calculateTenure(item.joinDate)}</small>
+              </div>
+            </td>
+            <td data-label="Actions">
+              <div class="btn-group-actions">
+                <button class="btn btn-sm btn-edit edit-btn" data-id="${item.id}" title="Edit">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-delete delete-btn" data-id="${item.id}" title="Delete">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-primary view-btn" data-id="${item.id}" title="View Details">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </td>
+          `;
+
+          tableBody.appendChild(tr);
+        });
+
+        // Add event listeners
+        document.querySelectorAll(".edit-btn").forEach((btn) => {
+          btn.addEventListener("click", handleEdit);
+        });
+
+        document.querySelectorAll(".delete-btn").forEach((btn) => {
+          btn.addEventListener("click", handleDelete);
+        });
+
+        document.querySelectorAll(".view-btn").forEach((btn) => {
+          btn.addEventListener("click", handleView);
+        });
+      }
+
+      // Format date for display
+      function formatDate(dateString) {
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+      }
+
+      // Calculate tenure
+      function calculateTenure(joinDate) {
+        const join = new Date(joinDate);
+        const now = new Date();
+        const years = now.getFullYear() - join.getFullYear();
+        const months = now.getMonth() - join.getMonth();
+        
+        let tenure = '';
+        if (years > 0) {
+          tenure += `${years} year${years > 1 ? 's' : ''} `;
+        }
+        if (months > 0 || years === 0) {
+          tenure += `${months} month${months !== 1 ? 's' : ''}`;
+        }
+        
+        return tenure ? `${tenure} ago` : 'Recently joined';
+      }
+
+      // Render pagination
+      function renderPagination(data = filteredData) {
+        pagination.innerHTML = '';
+        const pageCount = Math.ceil(data.length / rowsPerPage);
+
+        if (pageCount <= 1) return;
+
+        // Previous button
+        const prevLi = document.createElement("li");
+        prevLi.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
+        prevLi.innerHTML = `
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        `;
+        prevLi.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (currentPage > 1) {
+            currentPage--;
+            renderTable(data);
+            renderPagination(data);
+            updateTableInfo(data);
+          }
+        });
+        pagination.appendChild(prevLi);
+
+        // Page numbers
+        const maxVisiblePages = window.innerWidth < 768 ? 3 : 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(pageCount, startPage + maxVisiblePages - 1);
+        
+        if (endPage - startPage + 1 < maxVisiblePages) {
+          startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+
+        // First page
+        if (startPage > 1) {
+          const firstLi = document.createElement("li");
+          firstLi.className = "page-item";
+          firstLi.innerHTML = `<a class="page-link" href="#">1</a>`;
+          firstLi.addEventListener("click", (e) => {
+            e.preventDefault();
+            currentPage = 1;
+            renderTable(data);
+            renderPagination(data);
+            updateTableInfo(data);
+          });
+          pagination.appendChild(firstLi);
+          
+          if (startPage > 2) {
+            const ellipsisLi = document.createElement("li");
+            ellipsisLi.className = "page-item disabled";
+            ellipsisLi.innerHTML = `<span class="page-link">...</span>`;
+            pagination.appendChild(ellipsisLi);
+          }
+        }
+
+        // Page numbers
+        for (let i = startPage; i <= endPage; i++) {
+          const li = document.createElement("li");
+          li.className = `page-item ${i === currentPage ? "active" : ""}`;
+          li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+          li.addEventListener("click", (e) => {
+            e.preventDefault();
+            currentPage = i;
+            renderTable(data);
+            renderPagination(data);
+            updateTableInfo(data);
+          });
+          pagination.appendChild(li);
+        }
+
+        // Last page
+        if (endPage < pageCount) {
+          if (endPage < pageCount - 1) {
+            const ellipsisLi = document.createElement("li");
+            ellipsisLi.className = "page-item disabled";
+            ellipsisLi.innerHTML = `<span class="page-link">...</span>`;
+            pagination.appendChild(ellipsisLi);
+          }
+          
+          const lastLi = document.createElement("li");
+          lastLi.className = "page-item";
+          lastLi.innerHTML = `<a class="page-link" href="#">${pageCount}</a>`;
+          lastLi.addEventListener("click", (e) => {
+            e.preventDefault();
+            currentPage = pageCount;
+            renderTable(data);
+            renderPagination(data);
+            updateTableInfo(data);
+          });
+          pagination.appendChild(lastLi);
+        }
+
+        // Next button
+        const nextLi = document.createElement("li");
+        nextLi.className = `page-item ${currentPage === pageCount ? "disabled" : ""}`;
+        nextLi.innerHTML = `
+          <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        `;
+        nextLi.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (currentPage < pageCount) {
+            currentPage++;
+            renderTable(data);
+            renderPagination(data);
+            updateTableInfo(data);
+          }
+        });
+        pagination.appendChild(nextLi);
+      }
+
+      // Update table info
+      function updateTableInfo(data = filteredData) {
+        const startIndex = data.length > 0 ? (currentPage - 1) * rowsPerPage + 1 : 0;
+        const endIndex = Math.min(currentPage * rowsPerPage, data.length);
+        dataTableInfo.textContent = `Showing ${startIndex} to ${endIndex} of ${data.length} entries`;
+        
+        // Add filter info if search is active
+        if (searchInput.value.trim() && data.length < tableData.length) {
+          dataTableInfo.innerHTML += ` <span class="text-primary">(filtered from ${tableData.length} total entries)</span>`;
+        }
+      }
+
+      // Show toast notification
+      function showToast(message, type = 'info') {
+        const toastId = 'toast-' + Date.now();
+        const toast = document.createElement('div');
+        toast.className = `toast align-items-center border-0 ${type === 'success' ? 'toast-success' : type === 'error' ? 'toast-error' : ''}`;
+        toast.setAttribute('id', toastId);
+        toast.innerHTML = `
+          <div class="d-flex">
+            <div class="toast-body">
+              <i class="fas ${type === 'success' ? 'fa-check-circle text-success' : type === 'error' ? 'fa-exclamation-circle text-danger' : 'fa-info-circle text-primary'} me-2"></i>
+              ${message}
+            </div>
+            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button>
+          </div>
+        `;
+        
+        toastContainer.appendChild(toast);
+        const bsToast = new bootstrap.Toast(toast, { delay: 3000 });
+        bsToast.show();
+        
+        toast.addEventListener('hidden.bs.toast', function () {
+          toast.remove();
+        });
+      }
+
+      // Handle search
+      function handleSearch() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        if (!searchTerm) {
+          filteredData = [...tableData];
+        } else {
+          filteredData = tableData.filter(
+            (item) =>
+              item.name.toLowerCase().includes(searchTerm) ||
+              item.email.toLowerCase().includes(searchTerm) ||
+              (item.phone && item.phone.includes(searchTerm)) ||
+              item.department.toLowerCase().includes(searchTerm)
+          );
+        }
+
+        currentPage = 1;
+        renderTable(filteredData);
+        renderPagination(filteredData);
+        updateTableInfo(filteredData);
+        
+        if (searchTerm && filteredData.length === 0) {
+          showToast('No matching records found', 'error');
+        }
+      }
+
+      // Clear search
+      function clearSearchHandler() {
+        searchInput.value = '';
+        filteredData = [...tableData];
+        currentPage = 1;
+        renderTable();
+        renderPagination();
+        updateTableInfo();
+        showToast('Search cleared', 'info');
+      }
+
+      // Handle edit
+      function handleEdit(e) {
+        const id = parseInt(e.currentTarget.getAttribute("data-id"));
+        const record = tableData.find((item) => item.id === id);
+
+        if (record) {
+          document.getElementById("modalTitle").innerHTML = `<i class="fas fa-user-edit me-2"></i>Edit Employee`;
+          document.getElementById("recordId").value = record.id;
+          document.getElementById("name").value = record.name;
+          document.getElementById("email").value = record.email;
+          document.getElementById("phone").value = record.phone;
+          document.getElementById("department").value = record.department;
+          document.getElementById("joinDate").value = record.joinDate;
+
+          // Clear validation states
+          document.querySelectorAll('.is-invalid').forEach(el => {
+            el.classList.remove('is-invalid');
+          });
+
+          dataModal.show();
+        }
+      }
+
+      // Handle view
+      function handleView(e) {
+        const id = parseInt(e.currentTarget.getAttribute("data-id"));
+        const record = tableData.find((item) => item.id === id);
+        
+        if (record) {
+          const message = `
+            <strong>${record.name}</strong><br>
+            <strong>Email:</strong> ${record.email}<br>
+            <strong>Phone:</strong> ${record.phone || 'N/A'}<br>
+            <strong>Department:</strong> ${record.department}<br>
+            <strong>Joined:</strong> ${formatDate(record.joinDate)} (${calculateTenure(record.joinDate)})<br>
+            <strong>Employee ID:</strong> ${record.id}
+          `;
+          
+          alert(message);
+        }
+      }
+
+      // Handle delete
+      function handleDelete(e) {
+        const id = parseInt(e.currentTarget.getAttribute("data-id"));
+        const record = tableData.find((item) => item.id === id);
+        
+        if (record && confirm(`Are you sure you want to delete ${record.name}? This action cannot be undone.`)) {
+          tableData = tableData.filter((item) => item.id !== id);
+          filteredData = filteredData.filter((item) => item.id !== id);
+
+          // Adjust current page if needed
+          const pageCount = Math.ceil(filteredData.length / rowsPerPage);
+          if (currentPage > pageCount && pageCount > 0) {
+            currentPage = pageCount;
+          } else if (pageCount === 0) {
+            currentPage = 1;
+          }
+
+          renderTable();
+          renderPagination();
+          updateTableInfo();
+          showToast(`Employee ${record.name} deleted successfully`, 'success');
+        }
+      }
+
+      // Handle add new row
+      function handleAddNew() {
+        document.getElementById("modalTitle").innerHTML = `<i class="fas fa-user-plus me-2"></i>Add New Employee`;
+        dataForm.reset();
+        document.getElementById("recordId").value = "";
+        document.getElementById("joinDate").valueAsDate = new Date();
+        
+        // Clear validation states
+        document.querySelectorAll('.is-invalid').forEach(el => {
+          el.classList.remove('is-invalid');
+        });
+        
+        dataModal.show();
+      }
+
+      // Validate form
+      function validateForm() {
+        let isValid = true;
+        
+        // Name validation
+        const name = document.getElementById("name");
+        if (!name.value.trim()) {
+          name.classList.add('is-invalid');
+          isValid = false;
+        } else {
+          name.classList.remove('is-invalid');
+        }
+        
+        // Email validation
+        const email = document.getElementById("email");
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email.value.trim() || !emailRegex.test(email.value)) {
+          email.classList.add('is-invalid');
+          isValid = false;
+        } else {
+          email.classList.remove('is-invalid');
+        }
+        
+        // Department validation
+        const department = document.getElementById("department");
+        if (!department.value) {
+          department.classList.add('is-invalid');
+          isValid = false;
+        } else {
+          department.classList.remove('is-invalid');
+        }
+        
+        // Date validation
+        const joinDate = document.getElementById("joinDate");
+        if (!joinDate.value) {
+          joinDate.classList.add('is-invalid');
+          isValid = false;
+        } else {
+          joinDate.classList.remove('is-invalid');
+        }
+        
+        return isValid;
+      }
+
+      // Save data (add or update)
+      function saveData() {
+        if (!validateForm()) {
+          showToast('Please fill in all required fields correctly', 'error');
+          return;
+        }
+
+        const id = document.getElementById("recordId").value;
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const department = document.getElementById("department").value;
+        const joinDate = document.getElementById("joinDate").value;
+
+        // Check for duplicate email
+        const duplicateEmail = tableData.find(item => 
+          item.email.toLowerCase() === email.toLowerCase() && 
+          (!id || item.id !== parseInt(id))
+        );
+        
+        if (duplicateEmail) {
+          document.getElementById("email").classList.add('is-invalid');
+          showToast('This email is already registered', 'error');
+          return;
+        }
+
+        if (id) {
+          // Update existing record
+          const index = tableData.findIndex((item) => item.id === parseInt(id));
+          if (index !== -1) {
+            tableData[index] = {
+              id: parseInt(id),
+              name,
+              email,
+              phone,
+              department,
+              joinDate,
+            };
+            showToast(`Employee ${name} updated successfully`, 'success');
+          }
+        } else {
+          // Add new record
+          const newId = tableData.length > 0
+            ? Math.max(...tableData.map((item) => item.id)) + 1
+            : 1;
+          tableData.push({
+            id: newId,
+            name,
+            email,
+            phone,
+            department,
+            joinDate,
+          });
+          showToast(`Employee ${name} added successfully`, 'success');
+          
+          // Go to last page to see the new record
+          const pageCount = Math.ceil(tableData.length / rowsPerPage);
+          currentPage = pageCount;
+        }
+
+        // Update filtered data if search is active
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        if (searchTerm) {
+          handleSearch();
+        } else {
+          filteredData = [...tableData];
+          renderTable();
+          renderPagination();
+          updateTableInfo();
+        }
+
+        dataModal.hide();
+      }
+
+      // Event listeners
+      searchButton.addEventListener("click", handleSearch);
+      clearSearch.addEventListener("click", clearSearchHandler);
+      searchInput.addEventListener("keyup", function (e) {
+        if (e.key === "Enter") {
+          handleSearch();
+        }
+      });
+      addRowBtn.addEventListener("click", handleAddNew);
+      saveDataBtn.addEventListener("click", saveData);
+
+      // Window resize handler
+      let resizeTimer;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+          updateRowsPerPage();
+          currentPage = 1;
+          renderTable();
+          renderPagination();
+          updateTableInfo();
+        }, 250);
+      });
+
+      // Initialize the table
+      initTable();
+    });
+  </script>
+</body>
+
+</html>
