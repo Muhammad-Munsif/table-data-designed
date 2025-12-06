@@ -1,88 +1,187 @@
+document.addEventListener("DOMContentLoaded", function () {
+  // Enhanced sample data
+  let tableData = [
+    {
+      id: 1,
+      name: "John Doe",
+      email: "john@example.com",
+      phone: "123-456-7890",
+      department: "IT",
+      joinDate: "2020-01-15",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      email: "jane@example.com",
+      phone: "234-567-8901",
+      department: "HR",
+      joinDate: "2019-05-22",
+    },
+    {
+      id: 3,
+      name: "Robert Johnson",
+      email: "robert@example.com",
+      phone: "345-678-9012",
+      department: "Finance",
+      joinDate: "2021-03-10",
+    },
+    {
+      id: 4,
+      name: "Emily Davis",
+      email: "emily@example.com",
+      phone: "456-789-0123",
+      department: "Marketing",
+      joinDate: "2018-11-05",
+    },
+    {
+      id: 5,
+      name: "Michael Wilson",
+      email: "michael@example.com",
+      phone: "567-890-1234",
+      department: "Operations",
+      joinDate: "2022-02-18",
+    },
+    {
+      id: 6,
+      name: "Sarah Brown",
+      email: "sarah@example.com",
+      phone: "678-901-2345",
+      department: "IT",
+      joinDate: "2020-07-30",
+    },
+    {
+      id: 7,
+      name: "David Taylor",
+      email: "david@example.com",
+      phone: "789-012-3456",
+      department: "HR",
+      joinDate: "2019-09-12",
+    },
+    {
+      id: 8,
+      name: "Jessica Anderson",
+      email: "jessica@example.com",
+      phone: "890-123-4567",
+      department: "Finance",
+      joinDate: "2021-01-25",
+    },
+    {
+      id: 9,
+      name: "Thomas Martinez",
+      email: "thomas@example.com",
+      phone: "901-234-5678",
+      department: "Marketing",
+      joinDate: "2018-04-17",
+    },
+    {
+      id: 10,
+      name: "Lisa Robinson",
+      email: "lisa@example.com",
+      phone: "012-345-6789",
+      department: "Operations",
+      joinDate: "2022-06-08",
+    },
+    {
+      id: 11,
+      name: "James Wilson",
+      email: "james@example.com",
+      phone: "123-456-7891",
+      department: "Frontend Developer",
+      joinDate: "2021-08-14",
+    },
+    {
+      id: 12,
+      name: "Maria Garcia",
+      email: "maria@example.com",
+      phone: "234-567-8902",
+      department: "Backend Developer",
+      joinDate: "2020-03-22",
+    },
+    {
+      id: 13,
+      name: "William Lee",
+      email: "william@example.com",
+      phone: "345-678-9013",
+      department: "MERN Stack",
+      joinDate: "2023-01-10",
+    },
+    {
+      id: 14,
+      name: "Sophia Clark",
+      email: "sophia@example.com",
+      phone: "456-789-0124",
+      department: "MEAN Stack",
+      joinDate: "2022-09-05",
+    },
+  ];
 
-    document.addEventListener("DOMContentLoaded", function () {
-      // Enhanced sample data
-      let tableData = [
-        { id: 1, name: "John Doe", email: "john@example.com", phone: "123-456-7890", department: "IT", joinDate: "2020-01-15" },
-        { id: 2, name: "Jane Smith", email: "jane@example.com", phone: "234-567-8901", department: "HR", joinDate: "2019-05-22" },
-        { id: 3, name: "Robert Johnson", email: "robert@example.com", phone: "345-678-9012", department: "Finance", joinDate: "2021-03-10" },
-        { id: 4, name: "Emily Davis", email: "emily@example.com", phone: "456-789-0123", department: "Marketing", joinDate: "2018-11-05" },
-        { id: 5, name: "Michael Wilson", email: "michael@example.com", phone: "567-890-1234", department: "Operations", joinDate: "2022-02-18" },
-        { id: 6, name: "Sarah Brown", email: "sarah@example.com", phone: "678-901-2345", department: "IT", joinDate: "2020-07-30" },
-        { id: 7, name: "David Taylor", email: "david@example.com", phone: "789-012-3456", department: "HR", joinDate: "2019-09-12" },
-        { id: 8, name: "Jessica Anderson", email: "jessica@example.com", phone: "890-123-4567", department: "Finance", joinDate: "2021-01-25" },
-        { id: 9, name: "Thomas Martinez", email: "thomas@example.com", phone: "901-234-5678", department: "Marketing", joinDate: "2018-04-17" },
-        { id: 10, name: "Lisa Robinson", email: "lisa@example.com", phone: "012-345-6789", department: "Operations", joinDate: "2022-06-08" },
-        { id: 11, name: "James Wilson", email: "james@example.com", phone: "123-456-7891", department: "Frontend Developer", joinDate: "2021-08-14" },
-        { id: 12, name: "Maria Garcia", email: "maria@example.com", phone: "234-567-8902", department: "Backend Developer", joinDate: "2020-03-22" },
-        { id: 13, name: "William Lee", email: "william@example.com", phone: "345-678-9013", department: "MERN Stack", joinDate: "2023-01-10" },
-        { id: 14, name: "Sophia Clark", email: "sophia@example.com", phone: "456-789-0124", department: "MEAN Stack", joinDate: "2022-09-05" }
-      ];
+  // DOM elements
+  const tableBody = document.getElementById("tableBody");
+  const searchInput = document.getElementById("searchInput");
+  const searchButton = document.getElementById("searchButton");
+  const clearSearch = document.getElementById("clearSearch");
+  const addRowBtn = document.getElementById("addRowBtn");
+  const dataModal = new bootstrap.Modal(document.getElementById("dataModal"));
+  const saveDataBtn = document.getElementById("saveData");
+  const dataForm = document.getElementById("dataForm");
+  const pagination = document.getElementById("pagination");
+  const dataTableInfo = document.getElementById("dataTableInfo");
+  const toastContainer = document.querySelector(".toast-container");
 
-      // DOM elements
-      const tableBody = document.getElementById("tableBody");
-      const searchInput = document.getElementById("searchInput");
-      const searchButton = document.getElementById("searchButton");
-      const clearSearch = document.getElementById("clearSearch");
-      const addRowBtn = document.getElementById("addRowBtn");
-      const dataModal = new bootstrap.Modal(document.getElementById("dataModal"));
-      const saveDataBtn = document.getElementById("saveData");
-      const dataForm = document.getElementById("dataForm");
-      const pagination = document.getElementById("pagination");
-      const dataTableInfo = document.getElementById("dataTableInfo");
-      const toastContainer = document.querySelector('.toast-container');
+  // Pagination variables
+  let currentPage = 1;
+  let rowsPerPage = window.innerWidth < 768 ? 3 : 5;
+  let filteredData = [...tableData];
 
-      // Pagination variables
-      let currentPage = 1;
-      let rowsPerPage = window.innerWidth < 768 ? 3 : 5;
-      let filteredData = [...tableData];
+  // Initialize the table
+  function initTable() {
+    updateRowsPerPage();
+    renderTable();
+    renderPagination();
+    updateTableInfo();
+  }
 
-      // Initialize the table
-      function initTable() {
-        updateRowsPerPage();
-        renderTable();
-        renderPagination();
-        updateTableInfo();
-      }
+  // Update rows per page based on screen size
+  function updateRowsPerPage() {
+    if (window.innerWidth < 576) {
+      rowsPerPage = 3;
+    } else if (window.innerWidth < 768) {
+      rowsPerPage = 4;
+    } else {
+      rowsPerPage = 5;
+    }
+  }
 
-      // Update rows per page based on screen size
-      function updateRowsPerPage() {
-        if (window.innerWidth < 576) {
-          rowsPerPage = 3;
-        } else if (window.innerWidth < 768) {
-          rowsPerPage = 4;
-        } else {
-          rowsPerPage = 5;
-        }
-      }
+  // Render table rows
+  function renderTable(data = filteredData) {
+    tableBody.innerHTML = "";
 
-      // Render table rows
-      function renderTable(data = filteredData) {
-        tableBody.innerHTML = '';
+    // Calculate paginated data
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const paginatedData = data.slice(startIndex, startIndex + rowsPerPage);
 
-        // Calculate paginated data
-        const startIndex = (currentPage - 1) * rowsPerPage;
-        const paginatedData = data.slice(startIndex, startIndex + rowsPerPage);
-
-        if (paginatedData.length === 0) {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
+    if (paginatedData.length === 0) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
             <td colspan="7" class="text-center py-5">
               <i class="fas fa-database fa-2x mb-3" style="color: #6c757d;"></i>
               <p class="text-muted">No employees found</p>
             </td>
           `;
-          tableBody.appendChild(tr);
-          return;
-        }
+      tableBody.appendChild(tr);
+      return;
+    }
 
-        paginatedData.forEach((item) => {
-          const tr = document.createElement("tr");
-          
-          // Create department badge
-          const deptClass = item.department.replace(/\s+/g, '-');
-          
-          tr.innerHTML = `
-            <td data-label="ID"><span class="badge bg-light text-dark">${item.id}</span></td>
+    paginatedData.forEach((item) => {
+      const tr = document.createElement("tr");
+
+      // Create department badge
+      const deptClass = item.department.replace(/\s+/g, "-");
+
+      tr.innerHTML = `
+            <td data-label="ID"><span class="badge bg-light text-dark">${
+              item.id
+            }</span></td>
             <td data-label="Name">
               <div class="d-flex align-items-center">
                 <div class="avatar-placeholder me-2 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
@@ -92,485 +191,524 @@
               </div>
             </td>
             <td data-label="Email">
-              <a href="mailto:${item.email}" class="text-decoration-none">${item.email}</a>
+              <a href="mailto:${item.email}" class="text-decoration-none">${
+        item.email
+      }</a>
             </td>
-            <td data-label="Phone">${item.phone || 'N/A'}</td>
+            <td data-label="Phone">${item.phone || "N/A"}</td>
             <td data-label="Department">
-              <span class="department-badge ${deptClass}">${item.department}</span>
+              <span class="department-badge ${deptClass}">${
+        item.department
+      }</span>
             </td>
             <td data-label="Join Date">
               <div class="d-flex flex-column">
                 <span>${formatDate(item.joinDate)}</span>
-                <small class="text-muted">${calculateTenure(item.joinDate)}</small>
+                <small class="text-muted">${calculateTenure(
+                  item.joinDate
+                )}</small>
               </div>
             </td>
             <td data-label="Actions">
               <div class="btn-group-actions">
-                <button class="btn btn-sm btn-edit edit-btn" data-id="${item.id}" title="Edit">
+                <button class="btn btn-sm btn-edit edit-btn" data-id="${
+                  item.id
+                }" title="Edit">
                   <i class="fas fa-edit"></i>
                 </button>
-                <button class="btn btn-sm btn-delete delete-btn" data-id="${item.id}" title="Delete">
+                <button class="btn btn-sm btn-delete delete-btn" data-id="${
+                  item.id
+                }" title="Delete">
                   <i class="fas fa-trash-alt"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-primary view-btn" data-id="${item.id}" title="View Details">
+                <button class="btn btn-sm btn-outline-primary view-btn" data-id="${
+                  item.id
+                }" title="View Details">
                   <i class="fas fa-eye"></i>
                 </button>
               </div>
             </td>
           `;
 
-          tableBody.appendChild(tr);
-        });
+      tableBody.appendChild(tr);
+    });
 
-        // Add event listeners
-        document.querySelectorAll(".edit-btn").forEach((btn) => {
-          btn.addEventListener("click", handleEdit);
-        });
+    // Add event listeners
+    document.querySelectorAll(".edit-btn").forEach((btn) => {
+      btn.addEventListener("click", handleEdit);
+    });
 
-        document.querySelectorAll(".delete-btn").forEach((btn) => {
-          btn.addEventListener("click", handleDelete);
-        });
+    document.querySelectorAll(".delete-btn").forEach((btn) => {
+      btn.addEventListener("click", handleDelete);
+    });
 
-        document.querySelectorAll(".view-btn").forEach((btn) => {
-          btn.addEventListener("click", handleView);
-        });
-      }
+    document.querySelectorAll(".view-btn").forEach((btn) => {
+      btn.addEventListener("click", handleView);
+    });
+  }
 
-      // Format date for display
-      function formatDate(dateString) {
-        const options = { year: 'numeric', month: 'short', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-      }
+  // Format date for display
+  function formatDate(dateString) {
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  }
 
-      // Calculate tenure
-      function calculateTenure(joinDate) {
-        const join = new Date(joinDate);
-        const now = new Date();
-        const years = now.getFullYear() - join.getFullYear();
-        const months = now.getMonth() - join.getMonth();
-        
-        let tenure = '';
-        if (years > 0) {
-          tenure += `${years} year${years > 1 ? 's' : ''} `;
-        }
-        if (months > 0 || years === 0) {
-          tenure += `${months} month${months !== 1 ? 's' : ''}`;
-        }
-        
-        return tenure ? `${tenure} ago` : 'Recently joined';
-      }
+  // Calculate tenure
+  function calculateTenure(joinDate) {
+    const join = new Date(joinDate);
+    const now = new Date();
+    const years = now.getFullYear() - join.getFullYear();
+    const months = now.getMonth() - join.getMonth();
 
-      // Render pagination
-      function renderPagination(data = filteredData) {
-        pagination.innerHTML = '';
-        const pageCount = Math.ceil(data.length / rowsPerPage);
+    let tenure = "";
+    if (years > 0) {
+      tenure += `${years} year${years > 1 ? "s" : ""} `;
+    }
+    if (months > 0 || years === 0) {
+      tenure += `${months} month${months !== 1 ? "s" : ""}`;
+    }
 
-        if (pageCount <= 1) return;
+    return tenure ? `${tenure} ago` : "Recently joined";
+  }
 
-        // Previous button
-        const prevLi = document.createElement("li");
-        prevLi.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
-        prevLi.innerHTML = `
+  // Render pagination
+  function renderPagination(data = filteredData) {
+    pagination.innerHTML = "";
+    const pageCount = Math.ceil(data.length / rowsPerPage);
+
+    if (pageCount <= 1) return;
+
+    // Previous button
+    const prevLi = document.createElement("li");
+    prevLi.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
+    prevLi.innerHTML = `
           <a class="page-link" href="#" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
           </a>
         `;
-        prevLi.addEventListener("click", (e) => {
-          e.preventDefault();
-          if (currentPage > 1) {
-            currentPage--;
-            renderTable(data);
-            renderPagination(data);
-            updateTableInfo(data);
-          }
-        });
-        pagination.appendChild(prevLi);
+    prevLi.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (currentPage > 1) {
+        currentPage--;
+        renderTable(data);
+        renderPagination(data);
+        updateTableInfo(data);
+      }
+    });
+    pagination.appendChild(prevLi);
 
-        // Page numbers
-        const maxVisiblePages = window.innerWidth < 768 ? 3 : 5;
-        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-        let endPage = Math.min(pageCount, startPage + maxVisiblePages - 1);
-        
-        if (endPage - startPage + 1 < maxVisiblePages) {
-          startPage = Math.max(1, endPage - maxVisiblePages + 1);
-        }
+    // Page numbers
+    const maxVisiblePages = window.innerWidth < 768 ? 3 : 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(pageCount, startPage + maxVisiblePages - 1);
 
-        // First page
-        if (startPage > 1) {
-          const firstLi = document.createElement("li");
-          firstLi.className = "page-item";
-          firstLi.innerHTML = `<a class="page-link" href="#">1</a>`;
-          firstLi.addEventListener("click", (e) => {
-            e.preventDefault();
-            currentPage = 1;
-            renderTable(data);
-            renderPagination(data);
-            updateTableInfo(data);
-          });
-          pagination.appendChild(firstLi);
-          
-          if (startPage > 2) {
-            const ellipsisLi = document.createElement("li");
-            ellipsisLi.className = "page-item disabled";
-            ellipsisLi.innerHTML = `<span class="page-link">...</span>`;
-            pagination.appendChild(ellipsisLi);
-          }
-        }
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
 
-        // Page numbers
-        for (let i = startPage; i <= endPage; i++) {
-          const li = document.createElement("li");
-          li.className = `page-item ${i === currentPage ? "active" : ""}`;
-          li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-          li.addEventListener("click", (e) => {
-            e.preventDefault();
-            currentPage = i;
-            renderTable(data);
-            renderPagination(data);
-            updateTableInfo(data);
-          });
-          pagination.appendChild(li);
-        }
+    // First page
+    if (startPage > 1) {
+      const firstLi = document.createElement("li");
+      firstLi.className = "page-item";
+      firstLi.innerHTML = `<a class="page-link" href="#">1</a>`;
+      firstLi.addEventListener("click", (e) => {
+        e.preventDefault();
+        currentPage = 1;
+        renderTable(data);
+        renderPagination(data);
+        updateTableInfo(data);
+      });
+      pagination.appendChild(firstLi);
 
-        // Last page
-        if (endPage < pageCount) {
-          if (endPage < pageCount - 1) {
-            const ellipsisLi = document.createElement("li");
-            ellipsisLi.className = "page-item disabled";
-            ellipsisLi.innerHTML = `<span class="page-link">...</span>`;
-            pagination.appendChild(ellipsisLi);
-          }
-          
-          const lastLi = document.createElement("li");
-          lastLi.className = "page-item";
-          lastLi.innerHTML = `<a class="page-link" href="#">${pageCount}</a>`;
-          lastLi.addEventListener("click", (e) => {
-            e.preventDefault();
-            currentPage = pageCount;
-            renderTable(data);
-            renderPagination(data);
-            updateTableInfo(data);
-          });
-          pagination.appendChild(lastLi);
-        }
+      if (startPage > 2) {
+        const ellipsisLi = document.createElement("li");
+        ellipsisLi.className = "page-item disabled";
+        ellipsisLi.innerHTML = `<span class="page-link">...</span>`;
+        pagination.appendChild(ellipsisLi);
+      }
+    }
 
-        // Next button
-        const nextLi = document.createElement("li");
-        nextLi.className = `page-item ${currentPage === pageCount ? "disabled" : ""}`;
-        nextLi.innerHTML = `
+    // Page numbers
+    for (let i = startPage; i <= endPage; i++) {
+      const li = document.createElement("li");
+      li.className = `page-item ${i === currentPage ? "active" : ""}`;
+      li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+      li.addEventListener("click", (e) => {
+        e.preventDefault();
+        currentPage = i;
+        renderTable(data);
+        renderPagination(data);
+        updateTableInfo(data);
+      });
+      pagination.appendChild(li);
+    }
+
+    // Last page
+    if (endPage < pageCount) {
+      if (endPage < pageCount - 1) {
+        const ellipsisLi = document.createElement("li");
+        ellipsisLi.className = "page-item disabled";
+        ellipsisLi.innerHTML = `<span class="page-link">...</span>`;
+        pagination.appendChild(ellipsisLi);
+      }
+
+      const lastLi = document.createElement("li");
+      lastLi.className = "page-item";
+      lastLi.innerHTML = `<a class="page-link" href="#">${pageCount}</a>`;
+      lastLi.addEventListener("click", (e) => {
+        e.preventDefault();
+        currentPage = pageCount;
+        renderTable(data);
+        renderPagination(data);
+        updateTableInfo(data);
+      });
+      pagination.appendChild(lastLi);
+    }
+
+    // Next button
+    const nextLi = document.createElement("li");
+    nextLi.className = `page-item ${
+      currentPage === pageCount ? "disabled" : ""
+    }`;
+    nextLi.innerHTML = `
           <a class="page-link" href="#" aria-label="Next">
             <span aria-hidden="true">&raquo;</span>
           </a>
         `;
-        nextLi.addEventListener("click", (e) => {
-          e.preventDefault();
-          if (currentPage < pageCount) {
-            currentPage++;
-            renderTable(data);
-            renderPagination(data);
-            updateTableInfo(data);
-          }
-        });
-        pagination.appendChild(nextLi);
+    nextLi.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (currentPage < pageCount) {
+        currentPage++;
+        renderTable(data);
+        renderPagination(data);
+        updateTableInfo(data);
       }
+    });
+    pagination.appendChild(nextLi);
+  }
 
-      // Update table info
-      function updateTableInfo(data = filteredData) {
-        const startIndex = data.length > 0 ? (currentPage - 1) * rowsPerPage + 1 : 0;
-        const endIndex = Math.min(currentPage * rowsPerPage, data.length);
-        dataTableInfo.textContent = `Showing ${startIndex} to ${endIndex} of ${data.length} entries`;
-        
-        // Add filter info if search is active
-        if (searchInput.value.trim() && data.length < tableData.length) {
-          dataTableInfo.innerHTML += ` <span class="text-primary">(filtered from ${tableData.length} total entries)</span>`;
-        }
-      }
+  // Update table info
+  function updateTableInfo(data = filteredData) {
+    const startIndex =
+      data.length > 0 ? (currentPage - 1) * rowsPerPage + 1 : 0;
+    const endIndex = Math.min(currentPage * rowsPerPage, data.length);
+    dataTableInfo.textContent = `Showing ${startIndex} to ${endIndex} of ${data.length} entries`;
 
-      // Show toast notification
-      function showToast(message, type = 'info') {
-        const toastId = 'toast-' + Date.now();
-        const toast = document.createElement('div');
-        toast.className = `toast align-items-center border-0 ${type === 'success' ? 'toast-success' : type === 'error' ? 'toast-error' : ''}`;
-        toast.setAttribute('id', toastId);
-        toast.innerHTML = `
+    // Add filter info if search is active
+    if (searchInput.value.trim() && data.length < tableData.length) {
+      dataTableInfo.innerHTML += ` <span class="text-primary">(filtered from ${tableData.length} total entries)</span>`;
+    }
+  }
+
+  // Show toast notification
+  function showToast(message, type = "info") {
+    const toastId = "toast-" + Date.now();
+    const toast = document.createElement("div");
+    toast.className = `toast align-items-center border-0 ${
+      type === "success"
+        ? "toast-success"
+        : type === "error"
+        ? "toast-error"
+        : ""
+    }`;
+    toast.setAttribute("id", toastId);
+    toast.innerHTML = `
           <div class="d-flex">
             <div class="toast-body">
-              <i class="fas ${type === 'success' ? 'fa-check-circle text-success' : type === 'error' ? 'fa-exclamation-circle text-danger' : 'fa-info-circle text-primary'} me-2"></i>
+              <i class="fas ${
+                type === "success"
+                  ? "fa-check-circle text-success"
+                  : type === "error"
+                  ? "fa-exclamation-circle text-danger"
+                  : "fa-info-circle text-primary"
+              } me-2"></i>
               ${message}
             </div>
             <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button>
           </div>
         `;
-        
-        toastContainer.appendChild(toast);
-        const bsToast = new bootstrap.Toast(toast, { delay: 3000 });
-        bsToast.show();
-        
-        toast.addEventListener('hidden.bs.toast', function () {
-          toast.remove();
-        });
-      }
 
-      // Handle search
-      function handleSearch() {
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        if (!searchTerm) {
-          filteredData = [...tableData];
-        } else {
-          filteredData = tableData.filter(
-            (item) =>
-              item.name.toLowerCase().includes(searchTerm) ||
-              item.email.toLowerCase().includes(searchTerm) ||
-              (item.phone && item.phone.includes(searchTerm)) ||
-              item.department.toLowerCase().includes(searchTerm)
-          );
-        }
+    toastContainer.appendChild(toast);
+    const bsToast = new bootstrap.Toast(toast, { delay: 3000 });
+    bsToast.show();
 
-        currentPage = 1;
-        renderTable(filteredData);
-        renderPagination(filteredData);
-        updateTableInfo(filteredData);
-        
-        if (searchTerm && filteredData.length === 0) {
-          showToast('No matching records found', 'error');
-        }
-      }
+    toast.addEventListener("hidden.bs.toast", function () {
+      toast.remove();
+    });
+  }
 
-      // Clear search
-      function clearSearchHandler() {
-        searchInput.value = '';
-        filteredData = [...tableData];
-        currentPage = 1;
-        renderTable();
-        renderPagination();
-        updateTableInfo();
-        showToast('Search cleared', 'info');
-      }
+  // Handle search
+  function handleSearch() {
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    if (!searchTerm) {
+      filteredData = [...tableData];
+    } else {
+      filteredData = tableData.filter(
+        (item) =>
+          item.name.toLowerCase().includes(searchTerm) ||
+          item.email.toLowerCase().includes(searchTerm) ||
+          (item.phone && item.phone.includes(searchTerm)) ||
+          item.department.toLowerCase().includes(searchTerm)
+      );
+    }
 
-      // Handle edit
-      function handleEdit(e) {
-        const id = parseInt(e.currentTarget.getAttribute("data-id"));
-        const record = tableData.find((item) => item.id === id);
+    currentPage = 1;
+    renderTable(filteredData);
+    renderPagination(filteredData);
+    updateTableInfo(filteredData);
 
-        if (record) {
-          document.getElementById("modalTitle").innerHTML = `<i class="fas fa-user-edit me-2"></i>Edit Employee`;
-          document.getElementById("recordId").value = record.id;
-          document.getElementById("name").value = record.name;
-          document.getElementById("email").value = record.email;
-          document.getElementById("phone").value = record.phone;
-          document.getElementById("department").value = record.department;
-          document.getElementById("joinDate").value = record.joinDate;
+    if (searchTerm && filteredData.length === 0) {
+      showToast("No matching records found", "error");
+    }
+  }
 
-          // Clear validation states
-          document.querySelectorAll('.is-invalid').forEach(el => {
-            el.classList.remove('is-invalid');
-          });
+  // Clear search
+  function clearSearchHandler() {
+    searchInput.value = "";
+    filteredData = [...tableData];
+    currentPage = 1;
+    renderTable();
+    renderPagination();
+    updateTableInfo();
+    showToast("Search cleared", "info");
+  }
 
-          dataModal.show();
-        }
-      }
+  // Handle edit
+  function handleEdit(e) {
+    const id = parseInt(e.currentTarget.getAttribute("data-id"));
+    const record = tableData.find((item) => item.id === id);
 
-      // Handle view
-      function handleView(e) {
-        const id = parseInt(e.currentTarget.getAttribute("data-id"));
-        const record = tableData.find((item) => item.id === id);
-        
-        if (record) {
-          const message = `
+    if (record) {
+      document.getElementById(
+        "modalTitle"
+      ).innerHTML = `<i class="fas fa-user-edit me-2"></i>Edit Employee`;
+      document.getElementById("recordId").value = record.id;
+      document.getElementById("name").value = record.name;
+      document.getElementById("email").value = record.email;
+      document.getElementById("phone").value = record.phone;
+      document.getElementById("department").value = record.department;
+      document.getElementById("joinDate").value = record.joinDate;
+
+      // Clear validation states
+      document.querySelectorAll(".is-invalid").forEach((el) => {
+        el.classList.remove("is-invalid");
+      });
+
+      dataModal.show();
+    }
+  }
+
+  // Handle view
+  function handleView(e) {
+    const id = parseInt(e.currentTarget.getAttribute("data-id"));
+    const record = tableData.find((item) => item.id === id);
+
+    if (record) {
+      const message = `
             <strong>${record.name}</strong><br>
             <strong>Email:</strong> ${record.email}<br>
-            <strong>Phone:</strong> ${record.phone || 'N/A'}<br>
+            <strong>Phone:</strong> ${record.phone || "N/A"}<br>
             <strong>Department:</strong> ${record.department}<br>
-            <strong>Joined:</strong> ${formatDate(record.joinDate)} (${calculateTenure(record.joinDate)})<br>
+            <strong>Joined:</strong> ${formatDate(
+              record.joinDate
+            )} (${calculateTenure(record.joinDate)})<br>
             <strong>Employee ID:</strong> ${record.id}
           `;
-          
-          alert(message);
-        }
+
+      alert(message);
+    }
+  }
+
+  // Handle delete
+  function handleDelete(e) {
+    const id = parseInt(e.currentTarget.getAttribute("data-id"));
+    const record = tableData.find((item) => item.id === id);
+
+    if (
+      record &&
+      confirm(
+        `Are you sure you want to delete ${record.name}? This action cannot be undone.`
+      )
+    ) {
+      tableData = tableData.filter((item) => item.id !== id);
+      filteredData = filteredData.filter((item) => item.id !== id);
+
+      // Adjust current page if needed
+      const pageCount = Math.ceil(filteredData.length / rowsPerPage);
+      if (currentPage > pageCount && pageCount > 0) {
+        currentPage = pageCount;
+      } else if (pageCount === 0) {
+        currentPage = 1;
       }
 
-      // Handle delete
-      function handleDelete(e) {
-        const id = parseInt(e.currentTarget.getAttribute("data-id"));
-        const record = tableData.find((item) => item.id === id);
-        
-        if (record && confirm(`Are you sure you want to delete ${record.name}? This action cannot be undone.`)) {
-          tableData = tableData.filter((item) => item.id !== id);
-          filteredData = filteredData.filter((item) => item.id !== id);
+      renderTable();
+      renderPagination();
+      updateTableInfo();
+      showToast(`Employee ${record.name} deleted successfully`, "success");
+    }
+  }
 
-          // Adjust current page if needed
-          const pageCount = Math.ceil(filteredData.length / rowsPerPage);
-          if (currentPage > pageCount && pageCount > 0) {
-            currentPage = pageCount;
-          } else if (pageCount === 0) {
-            currentPage = 1;
-          }
+  // Handle add new row
+  function handleAddNew() {
+    document.getElementById(
+      "modalTitle"
+    ).innerHTML = `<i class="fas fa-user-plus me-2"></i>Add New Employee`;
+    dataForm.reset();
+    document.getElementById("recordId").value = "";
+    document.getElementById("joinDate").valueAsDate = new Date();
 
-          renderTable();
-          renderPagination();
-          updateTableInfo();
-          showToast(`Employee ${record.name} deleted successfully`, 'success');
-        }
-      }
-
-      // Handle add new row
-      function handleAddNew() {
-        document.getElementById("modalTitle").innerHTML = `<i class="fas fa-user-plus me-2"></i>Add New Employee`;
-        dataForm.reset();
-        document.getElementById("recordId").value = "";
-        document.getElementById("joinDate").valueAsDate = new Date();
-        
-        // Clear validation states
-        document.querySelectorAll('.is-invalid').forEach(el => {
-          el.classList.remove('is-invalid');
-        });
-        
-        dataModal.show();
-      }
-
-      // Validate form
-      function validateForm() {
-        let isValid = true;
-        
-        // Name validation
-        const name = document.getElementById("name");
-        if (!name.value.trim()) {
-          name.classList.add('is-invalid');
-          isValid = false;
-        } else {
-          name.classList.remove('is-invalid');
-        }
-        
-        // Email validation
-        const email = document.getElementById("email");
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!email.value.trim() || !emailRegex.test(email.value)) {
-          email.classList.add('is-invalid');
-          isValid = false;
-        } else {
-          email.classList.remove('is-invalid');
-        }
-        
-        // Department validation
-        const department = document.getElementById("department");
-        if (!department.value) {
-          department.classList.add('is-invalid');
-          isValid = false;
-        } else {
-          department.classList.remove('is-invalid');
-        }
-        
-        // Date validation
-        const joinDate = document.getElementById("joinDate");
-        if (!joinDate.value) {
-          joinDate.classList.add('is-invalid');
-          isValid = false;
-        } else {
-          joinDate.classList.remove('is-invalid');
-        }
-        
-        return isValid;
-      }
-
-      // Save data (add or update)
-      function saveData() {
-        if (!validateForm()) {
-          showToast('Please fill in all required fields correctly', 'error');
-          return;
-        }
-
-        const id = document.getElementById("recordId").value;
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const phone = document.getElementById("phone").value.trim();
-        const department = document.getElementById("department").value;
-        const joinDate = document.getElementById("joinDate").value;
-
-        // Check for duplicate email
-        const duplicateEmail = tableData.find(item => 
-          item.email.toLowerCase() === email.toLowerCase() && 
-          (!id || item.id !== parseInt(id))
-        );
-        
-        if (duplicateEmail) {
-          document.getElementById("email").classList.add('is-invalid');
-          showToast('This email is already registered', 'error');
-          return;
-        }
-
-        if (id) {
-          // Update existing record
-          const index = tableData.findIndex((item) => item.id === parseInt(id));
-          if (index !== -1) {
-            tableData[index] = {
-              id: parseInt(id),
-              name,
-              email,
-              phone,
-              department,
-              joinDate,
-            };
-            showToast(`Employee ${name} updated successfully`, 'success');
-          }
-        } else {
-          // Add new record
-          const newId = tableData.length > 0
-            ? Math.max(...tableData.map((item) => item.id)) + 1
-            : 1;
-          tableData.push({
-            id: newId,
-            name,
-            email,
-            phone,
-            department,
-            joinDate,
-          });
-          showToast(`Employee ${name} added successfully`, 'success');
-          
-          // Go to last page to see the new record
-          const pageCount = Math.ceil(tableData.length / rowsPerPage);
-          currentPage = pageCount;
-        }
-
-        // Update filtered data if search is active
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        if (searchTerm) {
-          handleSearch();
-        } else {
-          filteredData = [...tableData];
-          renderTable();
-          renderPagination();
-          updateTableInfo();
-        }
-
-        dataModal.hide();
-      }
-
-      // Event listeners
-      searchButton.addEventListener("click", handleSearch);
-      clearSearch.addEventListener("click", clearSearchHandler);
-      searchInput.addEventListener("keyup", function (e) {
-        if (e.key === "Enter") {
-          handleSearch();
-        }
-      });
-      addRowBtn.addEventListener("click", handleAddNew);
-      saveDataBtn.addEventListener("click", saveData);
-
-      // Window resize handler
-      let resizeTimer;
-      window.addEventListener('resize', function() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function() {
-          updateRowsPerPage();
-          currentPage = 1;
-          renderTable();
-          renderPagination();
-          updateTableInfo();
-        }, 250);
-      });
-
-      // Initialize the table
-      initTable();
+    // Clear validation states
+    document.querySelectorAll(".is-invalid").forEach((el) => {
+      el.classList.remove("is-invalid");
     });
-  
+
+    dataModal.show();
+  }
+
+  // Validate form
+  function validateForm() {
+    let isValid = true;
+
+    // Name validation
+    const name = document.getElementById("name");
+    if (!name.value.trim()) {
+      name.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      name.classList.remove("is-invalid");
+    }
+
+    // Email validation
+    const email = document.getElementById("email");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.value.trim() || !emailRegex.test(email.value)) {
+      email.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      email.classList.remove("is-invalid");
+    }
+
+    // Department validation
+    const department = document.getElementById("department");
+    if (!department.value) {
+      department.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      department.classList.remove("is-invalid");
+    }
+
+    // Date validation
+    const joinDate = document.getElementById("joinDate");
+    if (!joinDate.value) {
+      joinDate.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      joinDate.classList.remove("is-invalid");
+    }
+
+    return isValid;
+  }
+
+  // Save data (add or update)
+  function saveData() {
+    if (!validateForm()) {
+      showToast("Please fill in all required fields correctly", "error");
+      return;
+    }
+
+    const id = document.getElementById("recordId").value;
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const department = document.getElementById("department").value;
+    const joinDate = document.getElementById("joinDate").value;
+
+    // Check for duplicate email
+    const duplicateEmail = tableData.find(
+      (item) =>
+        item.email.toLowerCase() === email.toLowerCase() &&
+        (!id || item.id !== parseInt(id))
+    );
+
+    if (duplicateEmail) {
+      document.getElementById("email").classList.add("is-invalid");
+      showToast("This email is already registered", "error");
+      return;
+    }
+
+    if (id) {
+      // Update existing record
+      const index = tableData.findIndex((item) => item.id === parseInt(id));
+      if (index !== -1) {
+        tableData[index] = {
+          id: parseInt(id),
+          name,
+          email,
+          phone,
+          department,
+          joinDate,
+        };
+        showToast(`Employee ${name} updated successfully`, "success");
+      }
+    } else {
+      // Add new record
+      const newId =
+        tableData.length > 0
+          ? Math.max(...tableData.map((item) => item.id)) + 1
+          : 1;
+      tableData.push({
+        id: newId,
+        name,
+        email,
+        phone,
+        department,
+        joinDate,
+      });
+      showToast(`Employee ${name} added successfully`, "success");
+
+      // Go to last page to see the new record
+      const pageCount = Math.ceil(tableData.length / rowsPerPage);
+      currentPage = pageCount;
+    }
+
+    // Update filtered data if search is active
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    if (searchTerm) {
+      handleSearch();
+    } else {
+      filteredData = [...tableData];
+      renderTable();
+      renderPagination();
+      updateTableInfo();
+    }
+
+    dataModal.hide();
+  }
+
+  // Event listeners
+  searchButton.addEventListener("click", handleSearch);
+  clearSearch.addEventListener("click", clearSearchHandler);
+  searchInput.addEventListener("keyup", function (e) {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  });
+  addRowBtn.addEventListener("click", handleAddNew);
+  saveDataBtn.addEventListener("click", saveData);
+
+  // Window resize handler
+  let resizeTimer;
+  window.addEventListener("resize", function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      updateRowsPerPage();
+      currentPage = 1;
+      renderTable();
+      renderPagination();
+      updateTableInfo();
+    }, 250);
+  });
+
+  // Initialize the table
+  initTable();
+});
